@@ -1,3 +1,5 @@
+{StopInterrupt, DeathInterrupt, TopologyInterrupt, NetLogoException} = tortoise_require('util/exception')
+
 # (Element or string, [widget], string, string, boolean, string) -> WidgetController
 window.bindWidgets = (container, widgets, code, info, readOnly, filename) ->
   if typeof container == 'string'
@@ -83,7 +85,17 @@ class window.WidgetController
   runForevers: ->
     for widget in @widgets
       if widget.type == 'button' and widget.forever and widget.running
-        widget.run()
+        try
+          widget.run()
+        catch e
+          console.log(e)
+          if e not instanceof DeathInterrupt and e not instanceof TopologyInterrupt
+            widget.running = false
+            switch
+              when e instanceof StopInterrupt then break
+              when e instanceof NetLogoException then alert(e.message)
+              else alert("This is a bug! Please report it to <who?>\n\n#{e}")
+
 
   # () -> Unit
   updateWidgets: ->
