@@ -68,6 +68,7 @@ newSession = (container, modelResult, readOnly = false, filename = "export", onE
   modelConfig.print = { write: widgetController.write }
   modelConfig.output = widgetController.output
   modelConfig.dialog = widgetController.dialog
+  modelConfig.eval = {}
   globalEval(modelResult.model.result)
   new SessionLite(widgetController, onError)
 

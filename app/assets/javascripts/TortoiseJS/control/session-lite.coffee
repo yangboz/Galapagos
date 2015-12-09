@@ -18,6 +18,8 @@ class window.SessionLite
     @widgetController.ractive.on('exportHtml',         (event) => @exportHtml(event))
     @widgetController.ractive.on('console.run',        (code)  => @run(code))
     @drawEveryFrame = false
+    window.modelConfig.eval.evalCommand  = (code) => @runIt(code, (->), true)
+    window.modelConfig.eval.evalReporter = (code) => @runIt(code, (->), false)
 
   modelTitle: ->
     @widgetController.ractive.get('modelTitle')
@@ -150,18 +152,35 @@ class window.SessionLite
       form.appendChild(field)
     form
 
-
+  # (String) => Unit
   run: (code) ->
     Tortoise.startLoading()
-    codeCompile(@widgetController.code(), [code], [], @widgetController.widgets,
-      (res) =>
-        success = res.commands[0].success
-        result  = res.commands[0].result
-        Tortoise.finishLoading()
-        if (success)
-          new Function(result)()
+    try @runIt(code, Tortoise.finishLoading)
+    catch result
+      @alertCompileError(result)
+
+  # (String, () => Unit, Boolean) => Any
+  runIt: (code, onFinish = (->), isCommand = true) =>
+
+    [extractor, commands, reporters, prefix] =
+      if isCommand
+        [((x) -> x.commands),  [code], [],     ""]
+      else
+        [((x) -> x.reporters), [],     [code], "return "]
+
+    # Rather than just printing out the error here, we throw an exception so we can cease
+    # executing the code.  This is critical for `run-result`, which will otherwise go on
+    # to return `undefined` when compilation fails. --JAB (12/2/15
+    handleResult =
+      (compilation) =>
+        [{ success, result }] = extractor(compilation)
+        onFinish()
+        if success
+          new Function("#{prefix}#{result}")()
         else
-          @alertCompileError(result))
+          throw result
+
+    codeCompile(@widgetController.code(), commands, reporters, @widgetController.widgets, handleResult)
 
   alertCompileError: (result) ->
     alertText = result.map((err) -> err.message).join('\n')
