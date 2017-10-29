@@ -63,6 +63,7 @@ window.RactiveChooser = RactiveWidget.extend({
     """
     <label id="{{id}}"
            on-contextmenu="@this.fire('showContextMenu', @event)"
+           draggable="true" on-drag="dragWidget" on-dragstart="startWidgetDrag" on-dragend="stopWidgetDrag"
            class="netlogo-widget netlogo-chooser netlogo-input"
            style="{{dims}}">
       <span class="netlogo-label">{{widget.display}}</span>

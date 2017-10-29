@@ -233,6 +233,7 @@ window.RactiveView = RactiveWidget.extend({
       """
       <div id="{{id}}"
            on-contextmenu="@this.fire('showContextMenu', @event)"
+           draggable="true" on-drag="dragWidget" on-dragstart="startWidgetDrag" on-dragend="stopWidgetDrag"
            class="netlogo-widget netlogo-view-container"
            style="{{dims}}">
       </div>
