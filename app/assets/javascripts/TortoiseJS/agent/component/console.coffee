@@ -1,6 +1,7 @@
 window.RactiveConsoleWidget = Ractive.extend({
   data: -> {
     input: '',
+    isEditing: undefined # Boolean (for widget editing)
     agentTypes: ['observer', 'turtles', 'patches', 'links'],
     agentTypeIndex: 0,
     history: [], # Array of {agentType, input} objects
@@ -85,6 +86,12 @@ window.RactiveConsoleWidget = Ractive.extend({
       if newValue != commandCenterEditor.getValue()
         commandCenterEditor.setValue(newValue)
         commandCenterEditor.execCommand('goLineEnd')
+    )
+
+    @observe('isEditing', (isEditing) ->
+      commandCenterEditor.setOption('readOnly', isEditing)
+      commandCenterEditor.setValue('')
+      return
     )
 
   # String -> Unit
