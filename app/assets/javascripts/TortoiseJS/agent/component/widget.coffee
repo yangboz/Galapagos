@@ -21,7 +21,7 @@ window.RactiveWidget = RactiveContextable.extend({
       @findComponent('editForm')?.fire("activateCloakingDevice")
       return
 
-    "*.updateWidgetValue": (_, { proxies = {}, triggers = {}, values = {}}) ->
+    "*.updateWidgetValue": (_, { proxies: {}, triggers: {}, values: {}}) ->
 
       getByPath = (obj) -> (path) ->
         path.split('.').reduce(((acc, x) -> acc[x]), obj)
