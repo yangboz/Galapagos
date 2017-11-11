@@ -1,4 +1,4 @@
-FROM opalj/sbt_scala_javafx
+FROM hseeberger/scala-sbt
 
 # caching dependencies
 COPY ["build.sbt", "/tmp/build/"]
