@@ -1,5 +1,5 @@
 #FROM ysihaoy/scala-play:2.12.3-2.6.2-sbt-0.13.15
-FROM setusoft/scala-sbt-nodejs
+FROM smartkit/scala-sbt-nodejs
 
 # caching dependencies
 COPY ["build.sbt", "/tmp/build/"]
@@ -29,4 +29,5 @@ RUN sbt compile
 RUN sbt test:compile
 
 EXPOSE 9000
-CMD ["sbt"]
+ENTRYPOINT ["sbt"]
+CMD ["run"]
