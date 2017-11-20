@@ -14,7 +14,6 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /var/cache/oracle-jdk7-installer
 
-
 # caching dependencies
 COPY ["build.sbt", "/tmp/build/"]
 COPY ["project/plugins.sbt", "project/build.properties", "/tmp/build/project/"]
@@ -49,4 +48,9 @@ RUN npm install
 RUN sbt  
 
 EXPOSE 9000
+<<<<<<< HEAD
 #CMD ["sbt"]
+=======
+ENTRYPOINT ["sbt"]
+CMD ["run"]
+>>>>>>> 1832294d1d1fcaed16514e649fa6336fdc6d6fe6
