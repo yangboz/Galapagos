@@ -6,6 +6,8 @@ name := "Galapagos"
 
 version := "1.0-SNAPSHOT"
 
+sbtPlugin := true
+
 scalaVersion := "2.12.2"
 
 scalacOptions ++= Seq(
@@ -57,6 +59,8 @@ resolvers += bintray.Opts.resolver.repo("netlogo", "NetLogoHeadless")
 resolvers += Resolver.file("Local repo", file(System.getProperty("user.home") + "/.ivy2/local"))(Resolver.ivyStylePatterns)
 
 resolvers += "Akka Snapshot Repository" at "http://repo.akka.io/snapshots/" // Needed for akka-http (for now, at least) --JAB 5/23/17
+
+resolvers += "maven.atlassian.com" at "https://maven.atlassian.com/maven-external"
 
 GalapagosAssets.settings
 

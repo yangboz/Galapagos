@@ -23,7 +23,8 @@ scalacOptions ++= Seq(
 
 lazy val root = project.in(file(".")).dependsOn(sbtAutoprefixer)
 
-lazy val sbtAutoprefixer = uri("git://github.com/gpgekko/sbt-autoprefixer#7b3772c47d2bc09c138165e6e20dec41c716a6ce")
+// lazy val sbtAutoprefixer = uri("git://github.com/gpgekko/sbt-autoprefixer#7b3772c47d2bc09c138165e6e20dec41c716a6ce")
+lazy val sbtAutoprefixer = RootProject(uri("git://github.com/gpgekko/sbt-autoprefixer#7b3772c47d2bc09c138165e6e20dec41c716a6ce"))
 
 resolvers += Resolver.url(
   "play-scraper",
