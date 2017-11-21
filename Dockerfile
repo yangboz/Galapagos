@@ -1,26 +1,12 @@
-#FROM ysihaoy/scala-play:2.12.3-2.6.2-sbt-0.13.15
-FROM smartkit/scala-sbt-nodejs:2.12.2-0.13.16-6
-
-
-# Install Java.
-RUN  apt-get -y install python-software-properties
-RUN  apt-get -y install software-properties-common
-# Install Java.
-RUN \
-  echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && \
-  apt-get install -y oracle-java7-installer && \
-  rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/oracle-jdk7-installer
+#FROM smartkit/scala-sbt-nodejs:2.12.2-0.13.16-6
+#Java 8, Scala 2.11 & Sbt 0.13
+FROM janschultecom/docker-scala
 
 # caching dependencies
 COPY ["build.sbt", "/tmp/build/"]
 COPY ["project/plugins.sbt", "project/build.properties", "/tmp/build/project/"]
 COPY ["project/build.properties", "/"]
 
-#RUN apk add --no-cache git
-#RUN apk add --update nodejs
 RUN apt-get install git
 #RUN apt-get update
 #RUN apt-get install nodejs
@@ -48,9 +34,5 @@ RUN npm install
 RUN sbt  
 
 EXPOSE 9000
-<<<<<<< HEAD
 #CMD ["sbt"]
-=======
-ENTRYPOINT ["sbt"]
-CMD ["run"]
->>>>>>> 1832294d1d1fcaed16514e649fa6336fdc6d6fe6
+
