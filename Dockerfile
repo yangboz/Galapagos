@@ -1,6 +1,11 @@
-#FROM smartkit/scala-sbt-nodejs:2.12.2-0.13.16-6
+FROM smartkit/scala-sbt-nodejs:2.12.2-0.13.16-6
 #Java 8, Scala 2.11 & Sbt 0.13
-FROM janschultecom/docker-scala
+#FROM janschultecom/docker-scala
+
+# Base image
+#FROM hseeberger/scala-sbt
+
+RUN apt-get install -y nodejs 
 
 # caching dependencies
 COPY ["build.sbt", "/tmp/build/"]
@@ -23,8 +28,8 @@ COPY . /app/
 
 WORKDIR /app
 
-#RUN git clone git://github.com/gpgekko/sbt-autoprefixer /root/.sbt/0.13/staging/a13d8a10bd266a4d281d/sbt-autoprefixer
-COPY sbt-autoprefixer /root/.sbt/0.13/staging/a13d8a10bd266a4d281d/
+#RUN git clone https://github.com/gpgekko/sbt-autoprefixer /root/.sbt/0.13/staging/a13d8a10bd266a4d281d/sbt-autoprefixer
+#COPY sbt-autoprefixer /root/.sbt/0.13/staging/a13d8a10bd266a4d281d/
 
 RUN npm install
 
@@ -34,5 +39,6 @@ RUN npm install
 RUN sbt  
 
 EXPOSE 9000
-#CMD ["sbt"]
+#CMD ["sbt","run"]
+CMD ["sbt", "-mem", "1024", "run"]
 
